@@ -2,9 +2,9 @@
 
 const _typeStringConvert = (ajvSchemaItem) => {
     if ('format' in ajvSchemaItem &&
-        (ajvSchemaItem.format = ~ /date/i)) return 'Date';
+        (ajvSchemaItem.format.match(/date/i))) return 'Date';
     if ('pattern' in ajvSchemaItem &&
-        (ajvSchemaItem.pattern = ~ /^\^\[0\-9(a\-f){1,2}\]\{24\}\$$/i))
+        (ajvSchemaItem.pattern.match(/^\^\[0\-9(a\-f){1,2}\]\{24\}\$$/i)))
         return 'ObjectId';
     return 'String';
 }
