@@ -1,0 +1,30 @@
+{
+  "name": "ajv-mongoose-converter",
+  "version": "1.0.0",
+  "description": "Convert an ajv into a mongoose schema",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "tap -j=1 ./test/*.test.js",
+    "coverage": "tap -j=1 ./test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmilianoBruni/ajv-mongoose-converter.git"
+  },
+  "keywords": [
+    "ajv",
+    "schema",
+    "tool",
+    "mongoose",
+    "converter"
+  ],
+  "author": "Emiliano Bruni",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/EmilianoBruni/ajv-mongoose-converter/issues"
+  },
+  "homepage": "https://github.com/EmilianoBruni/ajv-mongoose-converter#readme",
+  "devDependencies": {
+    "tap": "^16.3.4"
+  }
+}
