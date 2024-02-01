@@ -1,4 +1,33 @@
-const _typeStringConvert = ajvSchemaItem => {
+export type ajvSchemaElement = {
+    type: "string" | "integer" | "number" | "boolean" | "array" | "object" | "timestamp";
+    format?: string;
+    pattern?: string;
+    items?: ajvSchemaElement;
+    example?: string | number | boolean | Object;
+};
+
+export type ajvSchemaProperty = {
+    [key: string]: ajvSchemaElement | ajvSchemaProperties;
+};
+
+export type ajvSchemaProperties = {
+    properties: ajvSchemaProperty;
+};
+
+export type ajvSchema = ajvSchemaProperties & {
+    required?: string[];
+};
+
+export type mooSchemaElement = {
+    type: string | string[] | Object;
+    required?: boolean;
+};
+
+export type mooSchema = {
+    [key: string]: mooSchemaElement | mooSchema;
+};
+
+const _typeStringConvert = (ajvSchemaItem: ajvSchemaElement): string => {
     if ('format' in ajvSchemaItem && ajvSchemaItem.format.match(/date/i))
         return 'Date';
     if (
@@ -9,7 +38,7 @@ const _typeStringConvert = ajvSchemaItem => {
     return 'String';
 };
 
-const _typeConvert = ajvSchemaItem => {
+const _typeConvert = (ajvSchemaItem: ajvSchemaElement): string => {
     switch (ajvSchemaItem.type.toLowerCase()) {
         case 'string':
             return _typeStringConvert(ajvSchemaItem);
@@ -34,8 +63,8 @@ const _typeConvert = ajvSchemaItem => {
     }
 };
 
-const convert = (ajvSchema, required = [], parent = null) => {
-    let props;
+const convert = (ajvSchema: ajvSchema, required: string[] = [], parent: string | null) => {
+    let props: ajvSchemaProperty;
     try {
         props = ajvSchema.properties;
         if (!props) throw '';
@@ -46,25 +75,25 @@ const convert = (ajvSchema, required = [], parent = null) => {
     }
     const req = [...(ajvSchema.required || []), ...required];
 
-    const mooSchema = {};
+    const mooSchema: mooSchema = {};
 
-    Object.keys(props).forEach(key => {
-        const prop = props[key];
+    // loop through keys
+    for (const key in props) {
+        const prop = props[key]!;
         // recursive if key has properties
-        if ('properties' in prop) {
-            mooSchema[key] = convert(prop, req, key);
-            return;
+        if (prop.hasOwnProperty('properties')) {
+            mooSchema[key] = convert(prop as ajvSchemaProperties, req, key);
+            continue;
         }
-        const keyObj = {};
-        keyObj.type = _typeConvert(prop);
-        if (keyObj.type === 'Array' && prop.items && prop.items.type) {
-            keyObj.type = Array(_typeConvert(prop.items));
+        const keyObj: mooSchemaElement = { type: _typeConvert(prop as ajvSchemaElement) };
+        const items: ajvSchemaElement | undefined = (prop as ajvSchemaElement).items;
+        if (keyObj.type === 'Array' && items && items.type) {
+            keyObj.type = Array(_typeConvert(items));
         }
         if (req.includes((parent ? `${parent}.` : '') + key))
             keyObj.required = true;
-
         mooSchema[key] = keyObj;
-    });
+    }
 
     return mooSchema;
 };
