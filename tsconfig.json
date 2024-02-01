@@ -109,5 +109,5 @@
   "ts-node": {
     "esm": true,
   },
-  "exclude": ["test", "dist"]
+  "include": ["src"]
 }
