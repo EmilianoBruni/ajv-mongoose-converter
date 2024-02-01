@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Convert an ajv into a mongoose schema",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "tap -j1 --allow-incomplete-coverage \"./test/*.test.?(c)js\"",
     "lint": "eslint \"src/**/*.[jt]s?(x)\" \"test/**/*.?(c)js\"",

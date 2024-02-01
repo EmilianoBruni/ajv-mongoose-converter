@@ -1,5 +1,3 @@
-'use strict';
-
 const _typeStringConvert = ajvSchemaItem => {
     if ('format' in ajvSchemaItem && ajvSchemaItem.format.match(/date/i))
         return 'Date';
@@ -71,4 +69,4 @@ const convert = (ajvSchema, required = [], parent = null) => {
     return mooSchema;
 };
 
-module.exports = convert;
+export default convert;

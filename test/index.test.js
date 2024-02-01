@@ -1,9 +1,5 @@
-'use strict';
-
-const conv = require('../src/index.js');
-
-const t = require('tap');
-const { test } = t;
+import conv from '../src/index.js';
+import t from 'tap';
 
 const ajvSchema = {
     properties: {
@@ -36,12 +32,12 @@ const ajvSchema = {
 
 const mooSchema = conv(ajvSchema);
 
-test('Invalid parameters', async t => {
+t.test('Invalid parameters', async t => {
     t.throws(() => conv());
     t.throws(() => conv({ wrong_properties: {} }));
 });
 
-test('Standard type conversion', async t => {
+t.test('Standard type conversion', async t => {
     t.match(mooSchema.name, { type: 'String' }, 'string conversion');
     t.match(mooSchema.age, { type: 'Number' }, 'integer conversion');
     t.match(mooSchema.weight, { type: 'Number' }, 'number conversion');
@@ -53,12 +49,12 @@ test('Standard type conversion', async t => {
     t.match(mooSchema.custom_type, { type: 'Mixed' }, 'Custom type');
 });
 
-test('Subdocuments', async t => {
+t.test('Subdocuments', async t => {
     t.match(mooSchema.car.id, { type: 'Number' }, 'Check subdocument');
     t.match(mooSchema.car.model, { type: 'String' }, 'Check subdocument');
 });
 
-test('Required', async t => {
+t.test('Required', async t => {
     t.same(
         mooSchema.name,
         { type: 'String', required: true },
@@ -76,3 +72,5 @@ test('Required', async t => {
         'required not present if not required in subdocument'
     );
 });
+
+t.end();
