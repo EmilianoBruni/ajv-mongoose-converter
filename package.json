@@ -23,7 +23,11 @@
     "schema",
     "tool",
     "mongoose",
-    "converter"
+    "converter",
+    "mongodb",
+    "mongo",
+    "database",
+    "typescript"
   ],
   "author": "Emiliano Bruni",
   "license": "GPL-3.0",
