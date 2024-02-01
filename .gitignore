@@ -105,3 +105,6 @@ dist
 .pnpm-store
 .tap
 .vscode
+
+# generated .cjs files in root folder
+*.cjs
