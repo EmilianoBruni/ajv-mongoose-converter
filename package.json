@@ -1,6 +1,6 @@
 {
   "name": "ajv-mongoose-converter",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Convert an ajv into a mongoose schema",
   "main": "src/index.js",
   "type": "module",
