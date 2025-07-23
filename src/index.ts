@@ -41,6 +41,8 @@ const _typeConvert = (ajvSchemaItem: ajvSchemaElement): string => {
             return 'Boolean';
         case 'timestamp':
             return 'Date';
+        case 'buffer':
+            return 'Buffer';
         case 'object':
         default:
             return 'Mixed';
@@ -71,13 +73,24 @@ const convert = (
         // recursive if key has properties
         if ('properties' in prop) {
             mooSchema[key] = convert(prop as ajvSchemaProperties, req, key);
+            if (
+                'buffer' in mooSchema[key] &&
+                'type' in mooSchema[key].buffer &&
+                mooSchema[key].buffer.type === 'Buffer'
+            ) {
+                // Special case for buffer in object
+                mooSchema[key] = { type: 'Buffer' };
+            }
             continue;
         }
         const keyObj: mooSchemaElement = {
             type: _typeConvert(prop as ajvSchemaElement)
         };
-        const items: ajvSchemaElement | undefined = (prop as ajvSchemaElement)
-            .items;
+        if (prop.type === 'object' && !('properties' in prop)) {
+            keyObj.type = 'Mixed'; // object without properties
+        }
+
+        const items = prop.items;
         if (keyObj.type === 'Array' && items && items.type) {
             keyObj.type = Array(_typeConvert(items));
         }
