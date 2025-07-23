@@ -2,7 +2,7 @@
   "name": "ajv-mongoose-converter",
   "version": "1.1.1",
   "description": "Convert an ajv into a mongoose schema",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "test": "tap -j4 --allow-incomplete-coverage \"test/**/*.test.?(c)[tj]s\"",
