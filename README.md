@@ -1,8 +1,21 @@
 # Convert ajv into mongoose schema
 
-This module converts a ajv schema into mongoose schema
+_This module converts a ajv schema into mongoose schema_
 
-Usage: 
+[![npm package](https://img.shields.io/npm/v/ajv-mongoose-converter.svg)](http://npmjs.org/package/ajv-mongoose-converter)
+[![Build workflow](https://github.com/EmilianoBruni/ajv-mongoose-converter/actions/workflows/build.yml/badge.svg)](https://github.com/EmilianoBruni/ajv-mongoose-converter/actions/workflows/build.yml)
+[![Coverage Status](https://coveralls.io/repos/github/EmilianoBruni/ajv-mongoose-converter/badge.svg?branch=master)](https://coveralls.io/github/EmilianoBruni/ajv-mongoose-converter?branch=master)
+![Last Commit](https://img.shields.io/github/last-commit/EmilianoBruni/ajv-mongoose-converter)
+[![Dependencies](https://img.shields.io/librariesio/github/EmilianoBruni/ajv-mongoose-converter)](https://libraries.io/npm/ajv-mongoose-converter)
+![Downloads](https://img.shields.io/npm/dt/ajv-mongoose-converter)
+
+## Installation
+
+```bash
+npm i ajv-mongoose-converter -s
+```
+
+## Usage
 
 ```javascript
 
@@ -56,14 +69,7 @@ into
   custom_type: { type: 'Mixed' },
   file_content: {type: 'Buffer' }
 }
-
 ```
-## Installation
-
-```bash
-npm i ajv-mongoose-converter -s
-```
-
 ## Usage with [fastify-mongoose-api](https://github.com/jeka-kiselyov/fastify-mongoose-api)
 
 In [fastify-mongoose-api](https://github.com/jeka-kiselyov/fastify-mongoose-api) you could have an object which describes Mongoose schema and validation schema.
