@@ -1,9 +1,23 @@
-export type ajvSchemaElement = {
-    type: "string" | "integer" | "number" | "boolean" | "array" | "object" | "timestamp";
+type ajvSchemaElementType =
+    | {
+          type:
+              | 'string'
+              | 'integer'
+              | 'number'
+              | 'boolean'
+              | 'array'
+              | 'object'
+              | 'timestamp';
+      }
+    | {
+          type: string;
+      };
+
+export type ajvSchemaElement = ajvSchemaElementType & {
     format?: string;
     pattern?: string;
     items?: ajvSchemaElement;
-    example?: string | number | boolean | Object;
+    example?: string | number | boolean | object;
 };
 
 export type ajvSchemaProperty = {
@@ -19,12 +33,12 @@ export type ajvSchema = ajvSchemaProperties & {
 };
 
 export type mooSchemaElement = {
-    type: string | string[] | Object;
+    type: string | string[] | object;
     required?: boolean;
 };
 
 export type mooSchema = {
-    [key: string]: mooSchemaElement | mooSchema;
+    [key: string]: mooSchemaElement | mooSchema | [key: string];
 };
 
 const _typeStringConvert = (ajvSchemaItem: ajvSchemaElement): string => {
@@ -41,7 +55,7 @@ const _typeStringConvert = (ajvSchemaItem: ajvSchemaElement): string => {
 const _typeObjectConvert = (ajvSchemaItem: ajvSchemaElement): string => {
     if ('format' in ajvSchemaItem && ajvSchemaItem.format.match(/binary/i))
         return 'Buffer';
-    return "Mixed";
+    return 'Mixed';
 };
 
 const _typeConvert = (ajvSchemaItem: ajvSchemaElement): string => {
@@ -71,12 +85,16 @@ const _typeConvert = (ajvSchemaItem: ajvSchemaElement): string => {
     }
 };
 
-const convert = (ajvSchema: ajvSchema, required: string[] = [], parent: string | null) => {
+const convert = (
+    ajvSchema: ajvSchema,
+    required: string[] = [],
+    parent?: string | null
+) => {
     let props: ajvSchemaProperty;
     try {
         props = ajvSchema.properties;
         if (!props) throw '';
-    } catch (error) {
+    } catch {
         throw new Error(
             'Please initialize module with a valid schema = {properties: {...} }'
         );
@@ -89,12 +107,15 @@ const convert = (ajvSchema: ajvSchema, required: string[] = [], parent: string |
     for (const key in props) {
         const prop = props[key]!;
         // recursive if key has properties
-        if (prop.hasOwnProperty('properties')) {
+        if ('properties' in prop) {
             mooSchema[key] = convert(prop as ajvSchemaProperties, req, key);
             continue;
         }
-        const keyObj: mooSchemaElement = { type: _typeConvert(prop as ajvSchemaElement) };
-        const items: ajvSchemaElement | undefined = (prop as ajvSchemaElement).items;
+        const keyObj: mooSchemaElement = {
+            type: _typeConvert(prop as ajvSchemaElement)
+        };
+        const items: ajvSchemaElement | undefined = (prop as ajvSchemaElement)
+            .items;
         if (keyObj.type === 'Array' && items && items.type) {
             keyObj.type = Array(_typeConvert(items));
         }
