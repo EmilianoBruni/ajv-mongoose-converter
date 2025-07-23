@@ -32,7 +32,8 @@ const ajv_schema = {
         "birthday": { type: "string", format: 'date' },
         "ts": { type: "timestamp" },
         "pets": { type: 'array', items: { type: "string" } },
-        "custom_type": { type: 'custom_type' }
+        "custom_type": { type: 'custom_type' },
+        "file_content": { type: 'object', format: 'binary' }
     },
     required: ["name", "car.id"],
 };
@@ -52,7 +53,8 @@ into
   birthday: { type: 'Date' },
   ts: { type: 'Date' },
   pets: { type: [ 'String' ] },
-  custom_type: { type: 'Mixed' }
+  custom_type: { type: 'Mixed' },
+  file_content: {type: 'Buffer' }
 }
 
 ```

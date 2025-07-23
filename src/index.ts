@@ -38,6 +38,12 @@ const _typeStringConvert = (ajvSchemaItem: ajvSchemaElement): string => {
     return 'String';
 };
 
+const _typeObjectConvert = (ajvSchemaItem: ajvSchemaElement): string => {
+    if ('format' in ajvSchemaItem && ajvSchemaItem.format.match(/binary/i))
+        return 'Buffer';
+    return "Mixed";
+};
+
 const _typeConvert = (ajvSchemaItem: ajvSchemaElement): string => {
     switch (ajvSchemaItem.type.toLowerCase()) {
         case 'string':
@@ -58,6 +64,8 @@ const _typeConvert = (ajvSchemaItem: ajvSchemaElement): string => {
             return 'Boolean';
         case 'timestamp':
             return 'Date';
+        case 'object':
+            return _typeObjectConvert(ajvSchemaItem);
         default:
             return 'Mixed';
     }

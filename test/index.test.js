@@ -1,4 +1,4 @@
-import conv from '../dist/index.js';
+import conv from '../src/index';
 import t from 'tap';
 
 const ajvSchema = {
@@ -25,7 +25,8 @@ const ajvSchema = {
         },
         ts: { type: 'timestamp' },
         pets: { type: 'array', items: { type: 'string' } },
-        custom_type: { type: 'custom_type' }
+        custom_type: { type: 'custom_type' },
+        file_content: { type: 'object', format: 'binary' }
     },
     required: ['name', 'car.id']
 };
@@ -47,6 +48,7 @@ t.test('Standard type conversion', async t => {
     t.match(mooSchema.birthday, { type: 'Date' }, 'date conversion via format');
     t.match(mooSchema.pets, { type: ['String'] }, 'array conversion');
     t.match(mooSchema.custom_type, { type: 'Mixed' }, 'Custom type');
+    t.match(mooSchema.file_content, { type: 'Buffer' }, 'Binary format conversion');
 });
 
 t.test('Subdocuments', async t => {
