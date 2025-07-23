@@ -1,4 +1,4 @@
-import conv from '../src/index';
+import conv from '@/index.js';
 import t from 'tap';
 
 const ajvSchema = {
