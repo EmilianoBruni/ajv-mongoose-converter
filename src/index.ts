@@ -62,7 +62,7 @@ const convert = (
         if (!props) throw '';
     } catch {
         throw new Error(
-            'Please initialize module with a valid schema = {properties: {...} }'
+            'Invalid schema: missing or malformed "properties" key. Please provide a schema object with a "properties" field containing property definitions.'
         );
     }
     const req = [...(ajvSchema.required || []), ...required];
