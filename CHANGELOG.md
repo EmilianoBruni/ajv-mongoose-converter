@@ -4,6 +4,12 @@ _Converts a ajv schema into mongoose schema_
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] 2025/07/23
+
+### Fixed
+
+- According to OpenAPI3.0 specs, format binary has type string. Add format byte too.
+
 ## [1.2.0] 2025/07/23
 
 ### Added
