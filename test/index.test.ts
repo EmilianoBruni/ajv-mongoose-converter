@@ -31,10 +31,29 @@ const ajvSchema = {
     required: ['name', 'car.id']
 };
 
-const mooSchema = conv(ajvSchema);
+type MongooseSchema = {
+    _id?: { type: string; required?: boolean };
+    name?: { type: string; required?: boolean };
+    age?: { type: string; required?: boolean };
+    weight?: { type: string; required?: boolean };
+    accepted?: { type: string; required?: boolean };
+    car?: {
+        id?: { type: string; required?: boolean };
+        model?: { type: string; required?: boolean };
+    };
+    birthday?: { type: string; required?: boolean };
+    ts?: { type: string; required?: boolean };
+    pets?: { type: string[]; required?: boolean };
+    custom_type?: { type: string; required?: boolean };
+    file_content?: { type: string; required?: boolean };
+};
+
+const mooSchema: MongooseSchema = conv(ajvSchema);
 
 t.test('Invalid parameters', async t => {
+    // @ts-expect-error Invalid parameters
     t.throws(() => conv());
+    // @ts-expect-error Invalid parameters
     t.throws(() => conv({ wrong_properties: {} }));
 });
 
@@ -48,12 +67,16 @@ t.test('Standard type conversion', async t => {
     t.match(mooSchema.birthday, { type: 'Date' }, 'date conversion via format');
     t.match(mooSchema.pets, { type: ['String'] }, 'array conversion');
     t.match(mooSchema.custom_type, { type: 'Mixed' }, 'Custom type');
-    t.match(mooSchema.file_content, { type: 'Buffer' }, 'Binary format conversion');
+    t.match(
+        mooSchema.file_content,
+        { type: 'Buffer' },
+        'Binary format conversion'
+    );
 });
 
 t.test('Subdocuments', async t => {
-    t.match(mooSchema.car.id, { type: 'Number' }, 'Check subdocument');
-    t.match(mooSchema.car.model, { type: 'String' }, 'Check subdocument');
+    t.match(mooSchema.car?.id, { type: 'Number' }, 'Check subdocument');
+    t.match(mooSchema.car?.model, { type: 'String' }, 'Check subdocument');
 });
 
 t.test('Required', async t => {
@@ -64,12 +87,12 @@ t.test('Required', async t => {
     );
     t.notHas(mooSchema.age, 'required', 'required not present if not required');
     t.same(
-        mooSchema.car.id,
+        mooSchema.car?.id,
         { type: 'Number', required: true },
         'required if required in subdocument'
     );
     t.notHas(
-        mooSchema.car.model,
+        mooSchema.car?.model,
         'required',
         'required not present if not required in subdocument'
     );
