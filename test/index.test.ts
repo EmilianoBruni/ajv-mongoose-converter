@@ -26,7 +26,8 @@ const ajvSchema = {
         ts: { type: 'timestamp' },
         pets: { type: 'array', items: { type: 'string' } },
         custom_type: { type: 'custom_type' },
-        file_content: { type: 'object', format: 'binary' }
+        file_content: { type: 'string', format: 'binary' },
+        raw: { type: 'string', format: 'byte' }
     },
     required: ['name', 'car.id']
 };
@@ -46,6 +47,7 @@ type MongooseSchema = {
     pets?: { type: string[]; required?: boolean };
     custom_type?: { type: string; required?: boolean };
     file_content?: { type: string; required?: boolean };
+    raw?: { type: string; required?: boolean };
 };
 
 const mooSchema: MongooseSchema = conv(ajvSchema);
@@ -72,6 +74,7 @@ t.test('Standard type conversion', async t => {
         { type: 'Buffer' },
         'Binary format conversion'
     );
+    t.match(mooSchema.raw, { type: 'Buffer' }, 'Byte format conversion');
 });
 
 t.test('Subdocuments', async t => {

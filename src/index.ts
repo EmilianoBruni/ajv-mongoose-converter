@@ -8,20 +8,17 @@ import type {
 } from '@/types.js';
 
 const _typeStringConvert = (ajvSchemaItem: ajvSchemaElement): string => {
-    if ('format' in ajvSchemaItem && ajvSchemaItem.format?.match(/date/i))
-        return 'Date';
+    if ('format' in ajvSchemaItem) {
+        if (ajvSchemaItem.format?.match(/date/i)) return 'Date';
+        if (ajvSchemaItem.format?.match(/binary/i)) return 'Buffer';
+        if (ajvSchemaItem.format?.match(/byte/i)) return 'Buffer';
+    }
     if (
         'pattern' in ajvSchemaItem &&
         ajvSchemaItem.pattern?.match(/^\^\[0-9(a-f){1,2}\]\{24\}\$$/i)
     )
         return 'ObjectId';
     return 'String';
-};
-
-const _typeObjectConvert = (ajvSchemaItem: ajvSchemaElement): string => {
-    if ('format' in ajvSchemaItem && ajvSchemaItem.format?.match(/binary/i))
-        return 'Buffer';
-    return 'Mixed';
 };
 
 const _typeConvert = (ajvSchemaItem: ajvSchemaElement): string => {
@@ -45,7 +42,6 @@ const _typeConvert = (ajvSchemaItem: ajvSchemaElement): string => {
         case 'timestamp':
             return 'Date';
         case 'object':
-            return _typeObjectConvert(ajvSchemaItem);
         default:
             return 'Mixed';
     }
