@@ -6,19 +6,22 @@ type ajvSchemaElementType =
               | 'number'
               | 'boolean'
               | 'array'
-              | 'object'
               | 'timestamp';
       }
     | {
           type: string;
       };
 
-export type ajvSchemaElement = ajvSchemaElementType & {
-    format?: string;
-    pattern?: string;
-    items?: ajvSchemaElement;
-    example?: string | number | boolean | object;
-};
+export type ajvSchemaElement =
+    | (ajvSchemaElementType & {
+          format?: string;
+          pattern?: string;
+          items?: ajvSchemaElement;
+          example?: string | number | boolean | object;
+      })
+    | ({
+          type: 'object';
+      } & ajvSchemaProperties);
 
 export type ajvSchemaProperty = {
     [key: string]: ajvSchemaElement | ajvSchemaProperties;
