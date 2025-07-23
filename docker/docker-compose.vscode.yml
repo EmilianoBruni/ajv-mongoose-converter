@@ -13,6 +13,11 @@ services:
             - ../:/ws/ajv-mongoose-converter:cached
             # node_modules in un volume temporaneo che non mi sovraccarica il prj reale in debug
             - dev-modules:/ws/ajv-mongoose-converter/node_modules 
+            - pnpm-store:/home/node/pnpm/store
+        environment:
+            # not in .env because .env can be used in prod too
+            FORCE_UID: 1001
+            FORCE_GID: 1001
 
     # Overrides default command so things don't shut down after the process ends.
         command: sleep infinity
@@ -23,6 +28,7 @@ services:
 
 volumes:
     dev-modules:
+    pnpm-store:
 
 networks:
     default:
