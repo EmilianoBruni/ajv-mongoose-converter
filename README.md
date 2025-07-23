@@ -46,7 +46,8 @@ const ajv_schema = {
         "ts": { type: "timestamp" },
         "pets": { type: 'array', items: { type: "string" } },
         "custom_type": { type: 'custom_type' },
-        "file_content": { type: 'object', format: 'binary' }
+        "file_content": { type: 'object', format: 'binary' },
+        "raw": { type: 'string', format: 'byte' }
     },
     required: ["name", "car.id"],
 };
@@ -67,7 +68,8 @@ into
   ts: { type: 'Date' },
   pets: { type: [ 'String' ] },
   custom_type: { type: 'Mixed' },
-  file_content: {type: 'Buffer' }
+  file_content: { type: 'Buffer' }
+  raw: { type: 'Buffer' }
 }
 ```
 ## Usage with [fastify-mongoose-api](https://github.com/jeka-kiselyov/fastify-mongoose-api)
