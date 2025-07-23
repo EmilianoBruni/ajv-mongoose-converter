@@ -4,6 +4,16 @@ _Converts a ajv schema into mongoose schema_
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] 2025/07/23
+
+### Added
+
+- Support for type:'object' format: 'binary' converted into Buffer SchemaType
+
+### Fixed
+
+- Minor bugs
+
 ## [1.1.1] 2024/02/08
 
 ### Fixed
