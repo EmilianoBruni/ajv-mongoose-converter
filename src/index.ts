@@ -1,59 +1,25 @@
-type ajvSchemaElementType =
-    | {
-          type:
-              | 'string'
-              | 'integer'
-              | 'number'
-              | 'boolean'
-              | 'array'
-              | 'object'
-              | 'timestamp';
-      }
-    | {
-          type: string;
-      };
-
-export type ajvSchemaElement = ajvSchemaElementType & {
-    format?: string;
-    pattern?: string;
-    items?: ajvSchemaElement;
-    example?: string | number | boolean | object;
-};
-
-export type ajvSchemaProperty = {
-    [key: string]: ajvSchemaElement | ajvSchemaProperties;
-};
-
-export type ajvSchemaProperties = {
-    properties: ajvSchemaProperty;
-};
-
-export type ajvSchema = ajvSchemaProperties & {
-    required?: string[];
-};
-
-export type mooSchemaElement = {
-    type: string | string[] | object;
-    required?: boolean;
-};
-
-export type mooSchema = {
-    [key: string]: mooSchemaElement | mooSchema | [key: string];
-};
+import type {
+    ajvSchemaElement,
+    ajvSchemaProperty,
+    ajvSchemaProperties,
+    ajvSchema,
+    mooSchemaElement,
+    mooSchema
+} from '@/types.js';
 
 const _typeStringConvert = (ajvSchemaItem: ajvSchemaElement): string => {
-    if ('format' in ajvSchemaItem && ajvSchemaItem.format.match(/date/i))
+    if ('format' in ajvSchemaItem && ajvSchemaItem.format?.match(/date/i))
         return 'Date';
     if (
         'pattern' in ajvSchemaItem &&
-        ajvSchemaItem.pattern.match(/^\^\[0-9(a-f){1,2}\]\{24\}\$$/i)
+        ajvSchemaItem.pattern?.match(/^\^\[0-9(a-f){1,2}\]\{24\}\$$/i)
     )
         return 'ObjectId';
     return 'String';
 };
 
 const _typeObjectConvert = (ajvSchemaItem: ajvSchemaElement): string => {
-    if ('format' in ajvSchemaItem && ajvSchemaItem.format.match(/binary/i))
+    if ('format' in ajvSchemaItem && ajvSchemaItem.format?.match(/binary/i))
         return 'Buffer';
     return 'Mixed';
 };
@@ -128,3 +94,10 @@ const convert = (
 };
 
 export default convert;
+export type {
+    ajvSchema,
+    ajvSchemaProperty,
+    ajvSchemaProperties,
+    mooSchemaElement,
+    mooSchema
+};
