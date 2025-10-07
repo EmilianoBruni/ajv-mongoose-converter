@@ -11,7 +11,7 @@ const ajvSchema = {
         name: { type: 'string', example: 'Emiliano' },
         age: { type: 'integer', example: 55 },
         weight: { type: 'number', example: 65.5 },
-        accepted: { type: 'boolean', example: true },
+        accepted: { type: 'boolean', example: true, default: true },
         car: {
             properties: {
                 id: { type: 'integer', example: 1 },
@@ -24,7 +24,7 @@ const ajvSchema = {
             example: '2023-03-06T10:30:00.000+0000Z'
         },
         ts: { type: 'timestamp' },
-        pets: { type: 'array', items: { type: 'string' } },
+        pets: { type: 'array', items: { type: 'string' }, default: ['dog'] },
         custom_type: { type: 'custom_type' },
         file_content: { type: 'string', format: 'binary' },
         raw: { type: 'string', format: 'byte' },
@@ -42,14 +42,14 @@ type MongooseSchema = {
     name?: { type: string; required?: boolean };
     age?: { type: string; required?: boolean };
     weight?: { type: string; required?: boolean };
-    accepted?: { type: string; required?: boolean };
+    accepted?: { type: string; required?: boolean; default?: boolean };
     car?: {
         id?: { type: string; required?: boolean };
         model?: { type: string; required?: boolean };
     };
     birthday?: { type: string; required?: boolean };
     ts?: { type: string; required?: boolean };
-    pets?: { type: string[]; required?: boolean };
+    pets?: { type: string[]; required?: boolean; default?: string[] };
     custom_type?: { type: string; required?: boolean };
     file_content?: { type: string; required?: boolean };
     raw?: { type: string; required?: boolean };
@@ -112,6 +112,20 @@ t.test('Required', async t => {
         'required',
         'required not present if not required in subdocument'
     );
+});
+
+t.test('Default', async t => {
+    t.has(
+        mooSchema.accepted,
+        { type: 'Boolean', default: true },
+        'default if present'
+    );
+    t.has(
+        mooSchema.pets,
+        { type: ['String'], default: ['dog'] },
+        'array default if present'
+    );
+    t.notHas(mooSchema.name, 'default', 'default not present if not present');
 });
 
 t.end();

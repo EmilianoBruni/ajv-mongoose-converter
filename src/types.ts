@@ -18,6 +18,7 @@ export type ajvSchemaElement =
           pattern?: string;
           items?: ajvSchemaElement;
           example?: string | number | boolean | object;
+          default?: unknown;
       })
     | ({
           type: 'object';
@@ -38,6 +39,7 @@ export type ajvSchema = ajvSchemaProperties & {
 export type mooSchemaElement = {
     type: string | string[] | object;
     required?: boolean;
+    default?: unknown;
 };
 
 export type mooSchema = {

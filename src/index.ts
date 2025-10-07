@@ -96,6 +96,7 @@ const convert = (
         }
         if (req.includes((parent ? `${parent}.` : '') + key))
             keyObj.required = true;
+        if ('default' in prop) keyObj.default = prop.default;
         mooSchema[key] = keyObj;
     }
 
