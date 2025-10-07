@@ -4,6 +4,12 @@ _Converts a ajv schema into mongoose schema_
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.3] 2025/10/07
+
+### Fixed
+
+- Add support for Mongoose "default" 
+
 ## [1.2.2] 2025/07/24
 
 ### Added
