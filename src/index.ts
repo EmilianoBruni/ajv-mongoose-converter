@@ -15,7 +15,8 @@ const _typeStringConvert = (ajvSchemaItem: ajvSchemaElement): string => {
     }
     if (
         'pattern' in ajvSchemaItem &&
-        ajvSchemaItem.pattern?.match(/^\^\[0-9(a-f){1,2}\]\{24\}\$$/i)
+        ajvSchemaItem.pattern &&
+        '0123456789abcdefABCDEF01'.match(new RegExp(ajvSchemaItem.pattern)) // is an ObjectId
     )
         return 'ObjectId';
     return 'String';
