@@ -99,10 +99,19 @@ const convert = (
             keyObj.required = true;
         if (req.includes(key)) keyObj.required = true;
         if ('default' in prop) keyObj.default = prop.default;
+        // add support for nullable
+        if ('nullable' in prop && prop.nullable) {
+            keyObj.validate = nullishValidator;
+        }
         mooSchema[key] = keyObj;
     }
 
     return mooSchema;
+};
+
+const nullishValidator = {
+    validator: (v: unknown) => v || v === null,
+    message: 'Value must be null or defined'
 };
 
 export default convert;
