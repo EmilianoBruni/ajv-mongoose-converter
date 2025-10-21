@@ -40,6 +40,14 @@ export type mooSchemaElement = {
     type: string | string[] | object;
     required?: boolean;
     default?: unknown;
+    validate?: object;
+    min?: number | [number, string];
+    max?: number | [number, string];
+    enum?: {
+        values: (string | number)[];
+        message?: string;
+    };
+    unique?: boolean;
 };
 
 export type mooSchema = {
