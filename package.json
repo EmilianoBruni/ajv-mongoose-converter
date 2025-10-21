@@ -1,73 +1,74 @@
 {
-  "name": "ajv-mongoose-converter",
-  "version": "1.2.3",
-  "description": "Convert an ajv into a mongoose schema",
-  "main": "dist/index.js",
-  "type": "module",
-  "scripts": {
-    "test": "tap -j4 --allow-incomplete-coverage \"test/**/*.test.?(c)[tj]s\"",
-    "test:coverage": "tap -j4 --show-full-coverage \"test/**/*.test.?(c)[tj]s\"",
-    "buildcjs": "rollup ./dist/index.js --file ./dist/index.cjs --format cjs",
-    "build": "pnpm clean && pnpm tsc && pnpm tsc-alias",
-    "clean": "rimraf ./dist .tap",
-    "lint": "eslint \"src/**/*.[jt]s?(x)\" \"test/**/*.?(c)[jt]s\"",
-    "lint:fix": "pnpm lint --fix",
-    "prepublishOnly": "pnpm lint:fix && pnpm build && pnpm buildcjs && pnpm test",
-    "test:ci": "pnpm prepublishOnly",
-    "tsc": "tsc -p tsconfig.build.json",
-    "tsc-alias": "tsc-alias -p tsconfig.build.json"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EmilianoBruni/ajv-mongoose-converter.git"
-  },
-  "keywords": [
-    "ajv",
-    "schema",
-    "tool",
-    "mongoose",
-    "converter",
-    "mongodb",
-    "mongo",
-    "database",
-    "typescript"
-  ],
-  "author": "Emiliano Bruni",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/EmilianoBruni/ajv-mongoose-converter/issues"
-  },
-  "homepage": "https://github.com/EmilianoBruni/ajv-mongoose-converter#readme",
-  "devDependencies": {
-    "@eslint/js": "^9.31.0",
-    "@tapjs/core": "^4.0.1",
-    "@tapjs/tsx": "^3.0.1",
-    "@tsconfig/node20": "^20.1.6",
-    "@types/node": "^24.1.0",
-    "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.3",
-    "globals": "^16.3.0",
-    "prettier": "^3.6.2",
-    "rimraf": "^6.0.1",
-    "rollup": "^4.45.1",
-    "tap": "^21.1.0",
-    "tsc-alias": "^1.8.16",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0"
-  },
-  "exports": {
-    "import": {
-      "default": "./dist/index.js",
-      "types": "./dist/types/index.d.js"
+    "name": "ajv-mongoose-converter",
+    "version": "1.2.3",
+    "description": "Convert an ajv into a mongoose schema",
+    "main": "dist/index.js",
+    "type": "module",
+    "scripts": {
+        "test": "tap -j4 --allow-incomplete-coverage \"test/**/*.test.?(c)[tj]s\"",
+        "test:coverage": "tap -j4 --show-full-coverage \"test/**/*.test.?(c)[tj]s\"",
+        "buildcjs": "rollup ./dist/index.js --file ./dist/index.cjs --format cjs",
+        "build": "pnpm clean && pnpm tsc && pnpm tsc-alias",
+        "build:watch": "concurrently -k -p \"[{name}]\" -n \"tsc,tsc-alias\" \"pnpm tsc -w\" -c \"yellow.bold,cyan.bold\" \"pnpm tsc-alias -w\"",
+        "clean": "rimraf ./dist .tap",
+        "lint": "eslint \"src/**/*.[jt]s?(x)\" \"test/**/*.?(c)[jt]s\"",
+        "lint:fix": "pnpm lint --fix",
+        "prepublishOnly": "pnpm lint:fix && pnpm build && pnpm buildcjs && pnpm test",
+        "test:ci": "pnpm prepublishOnly",
+        "tsc": "tsc -p tsconfig.build.json",
+        "tsc-alias": "tsc-alias -p tsconfig.build.json"
     },
-    "require": "./dist/index.cjs"
-  },
-  "tap": {
-    "plugin": [
-      "@tapjs/tsx",
-      "!@tapjs/typescript"
-    ]
-  }
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/EmilianoBruni/ajv-mongoose-converter.git"
+    },
+    "keywords": [
+        "ajv",
+        "schema",
+        "tool",
+        "mongoose",
+        "converter",
+        "mongodb",
+        "mongo",
+        "database",
+        "typescript"
+    ],
+    "author": "Emiliano Bruni",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/EmilianoBruni/ajv-mongoose-converter/issues"
+    },
+    "homepage": "https://github.com/EmilianoBruni/ajv-mongoose-converter#readme",
+    "devDependencies": {
+        "@eslint/js": "^9.31.0",
+        "@tapjs/core": "^4.0.1",
+        "@tapjs/tsx": "^3.0.1",
+        "@tsconfig/node20": "^20.1.6",
+        "@types/node": "^24.1.0",
+        "eslint": "^9.31.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.3",
+        "globals": "^16.3.0",
+        "prettier": "^3.6.2",
+        "rimraf": "^6.0.1",
+        "rollup": "^4.45.1",
+        "tap": "^21.1.0",
+        "tsc-alias": "^1.8.16",
+        "tsx": "^4.20.3",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.38.0"
+    },
+    "exports": {
+        "import": {
+            "default": "./dist/index.js",
+            "types": "./dist/types/index.d.js"
+        },
+        "require": "./dist/index.cjs"
+    },
+    "tap": {
+        "plugin": [
+            "@tapjs/tsx",
+            "!@tapjs/typescript"
+        ]
+    }
 }
