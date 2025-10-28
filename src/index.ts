@@ -99,9 +99,8 @@ const convert = (
             keyObj.required = true;
         if (req.includes(key)) keyObj.required = true;
         ['default', 'index', 'unique'].forEach(field => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             if (field in prop)
-                (keyObj as any)[field] = prop[field as keyof typeof prop];
+                (keyObj as any)[field] = prop[field as keyof typeof prop]; //eslint-disable-line @typescript-eslint/no-explicit-any
         });
         // if ('default' in prop) keyObj.default = prop.default;
         // add support for nullable
