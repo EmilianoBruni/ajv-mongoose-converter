@@ -98,7 +98,12 @@ const convert = (
         if (req.includes((parent ? `${parent}.` : '') + key))
             keyObj.required = true;
         if (req.includes(key)) keyObj.required = true;
-        if ('default' in prop) keyObj.default = prop.default;
+        ['default', 'index', 'unique'].forEach(field => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            if (field in prop)
+                (keyObj as any)[field] = prop[field as keyof typeof prop];
+        });
+        // if ('default' in prop) keyObj.default = prop.default;
         // add support for nullable
         if ('nullable' in prop && prop.nullable) {
             keyObj.validate = nullishValidator;

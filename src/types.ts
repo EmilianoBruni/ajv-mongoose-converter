@@ -19,6 +19,8 @@ export type ajvSchemaElement =
           items?: ajvSchemaElement;
           example?: string | number | boolean | object;
           default?: unknown;
+          index?: true;
+          unique?: true;
       })
     | ({
           type: 'object';
@@ -47,6 +49,7 @@ export type mooSchemaElement = {
         values: (string | number)[];
         message?: string;
     };
+    index?: boolean;
     unique?: boolean;
 };
 
