@@ -4,11 +4,23 @@ _Converts a ajv schema into mongoose schema_
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.4] 2025/11/03
+
+### Fixed
+
+- correct regex pattern matching for ObjectId detection
+
+### Added
+
+- enhance mooSchemaElement with additional properties for validation
+- add support for nullable properties in schema conversion
+- add support for convert index and unique props
+
 ## [1.2.3] 2025/10/07
 
 ### Fixed
 
-- Add support for Mongoose "default" 
+- Add support for Mongoose "default"
 
 ## [1.2.2] 2025/07/24
 
@@ -51,4 +63,3 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - First public release
-
