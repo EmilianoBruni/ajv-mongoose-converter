@@ -19,8 +19,8 @@ export type ajvSchemaElement =
           items?: ajvSchemaElement;
           example?: string | number | boolean | object;
           default?: unknown;
-          index?: true;
-          unique?: true;
+          index?: boolean;
+          unique?: boolean;
       })
     | ({
           type: 'object';
