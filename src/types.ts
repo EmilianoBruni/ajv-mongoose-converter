@@ -21,6 +21,10 @@ export type ajvSchemaElement =
           default?: unknown;
           index?: boolean;
           unique?: boolean;
+          ref?: string;
+          sparse?: boolean;
+          text?: boolean;
+          transform?: (value: any) => any; //eslint-disable-line @typescript-eslint/no-explicit-any
       })
     | ({
           type: 'object';
@@ -51,6 +55,10 @@ export type mooSchemaElement = {
     };
     index?: boolean;
     unique?: boolean;
+    ref?: string;
+    sparse?: boolean;
+    text?: boolean;
+    transform?: (value: any) => any; //eslint-disable-line @typescript-eslint/no-explicit-any
 };
 
 export type mooSchema = {

@@ -21,7 +21,8 @@ const ajvSchema = {
         birthday: {
             type: 'string',
             format: 'date-time',
-            example: '2023-03-06T10:30:00.000+0000Z'
+            example: '2023-03-06T10:30:00.000+0000Z',
+            transform: (v: Date) => v.getFullYear()
         },
         ts: { type: 'timestamp' },
         pets: { type: 'array', items: { type: 'string' }, default: ['dog'] },
@@ -32,14 +33,23 @@ const ajvSchema = {
         buffer: {
             type: 'object',
             properties: { buffer: { type: 'string', format: 'binary' } }
-        }
+        },
+        surname: { type: 'string', index: true },
+        badge_id: { type: 'integer', unique: true },
+        manager_id: {
+            type: 'string',
+            pattern: '^[0-9a-fA-F]{24}$',
+            ref: 'User'
+        },
+        department_id: { type: 'integer', unique: true, sparse: true },
+        bio: { type: 'string', text: true }
     },
     required: ['name', 'car.id']
 };
 
 type MongooseSchema = {
     _id?: { type: string; required?: boolean };
-    name?: { type: string; required?: boolean };
+    name?: { type: string; required?: boolean; index?: boolean };
     age?: { type: string; required?: boolean };
     weight?: { type: string; required?: boolean };
     accepted?: { type: string; required?: boolean; default?: boolean };
@@ -47,7 +57,11 @@ type MongooseSchema = {
         id?: { type: string; required?: boolean };
         model?: { type: string; required?: boolean };
     };
-    birthday?: { type: string; required?: boolean };
+    birthday?: {
+        type: string;
+        required?: boolean;
+        transform?: (value: Date) => number;
+    };
     ts?: { type: string; required?: boolean };
     pets?: { type: string[]; required?: boolean; default?: string[] };
     custom_type?: { type: string; required?: boolean };
@@ -55,6 +69,16 @@ type MongooseSchema = {
     raw?: { type: string; required?: boolean };
     only_object?: { type: object; required?: boolean };
     buffer?: { type: object; required?: boolean };
+    surname?: { type: string; required?: boolean; index?: boolean };
+    badge_id?: { type: string; required?: boolean; unique?: boolean };
+    manager_id?: { type: string; required?: boolean; ref?: string };
+    department_id?: {
+        type: string;
+        required?: boolean;
+        unique?: boolean;
+        sparse?: boolean;
+    };
+    bio?: { type: string; required?: boolean; text?: boolean };
 };
 
 const mooSchema: MongooseSchema = conv(ajvSchema);
@@ -126,6 +150,38 @@ t.test('Default', async t => {
         'array default if present'
     );
     t.notHas(mooSchema.name, 'default', 'default not present if not present');
+});
+
+t.test('Index, Unique, Ref, Sparse and Text', async t => {
+    t.has(
+        mooSchema.surname,
+        { type: 'String', index: true },
+        'index if present'
+    );
+    t.has(
+        mooSchema.badge_id,
+        { type: 'Number', unique: true },
+        'unique if present'
+    );
+    t.has(
+        mooSchema.manager_id,
+        { type: 'ObjectId', ref: 'User' },
+        'ref if present'
+    );
+    t.has(
+        mooSchema.department_id,
+        { type: 'Number', unique: true, sparse: true },
+        'unique and sparse if present'
+    );
+    t.has(mooSchema.bio, { type: 'String', text: true }, 'text if present');
+}); // not required
+
+t.test('Transform function', async t => {
+    t.type(
+        mooSchema.birthday?.transform,
+        'function',
+        'transform function is present'
+    );
 });
 
 t.end();
