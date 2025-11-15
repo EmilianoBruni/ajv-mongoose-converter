@@ -4,6 +4,12 @@ _Converts a ajv schema into mongoose schema_
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.5] 2025/11/15
+
+### Added
+
+- Add support for ref, spare, text and transform properties
+
 ## [1.2.4] 2025/11/03
 
 ### Fixed
@@ -13,7 +19,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - enhance mooSchemaElement with additional properties for validation
-- add support for nullable properties in schema conversion
+- add support for nullable property in schema conversion
 - add support for convert index and unique props
 
 ## [1.2.3] 2025/10/07
