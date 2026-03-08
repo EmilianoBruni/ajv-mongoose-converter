@@ -23,6 +23,11 @@ const _typeStringConvert = (ajvSchemaItem: ajvSchemaElement): string => {
 };
 
 const _typeConvert = (ajvSchemaItem: ajvSchemaElement): string => {
+    const type = ajvSchemaItem.type;
+    // if type is not a string, default to Mixed
+    // e.g. if type is { oneOf: [...] } or { anyOf: [...] }
+    if (typeof type !== 'string') return 'Mixed';
+
     switch (ajvSchemaItem.type.toLowerCase()) {
         case 'string':
             return _typeStringConvert(ajvSchemaItem);
