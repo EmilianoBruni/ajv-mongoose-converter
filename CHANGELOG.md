@@ -4,6 +4,12 @@ _Converts a ajv schema into mongoose schema_
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.6] 2026/03/08
+
+### Fixed
+
+- Fix when type is not a string (e.g. if type is { oneOf: [...] } or { anyOf: [...] })
+
 ## [1.2.5] 2025/11/15
 
 ### Added
